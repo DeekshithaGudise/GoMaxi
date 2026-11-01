@@ -20,6 +20,13 @@ regulatory research and a complete test suite.
 ![Operations overview](docs/screenshots/12-admin-overview.png)
 ![Live simulation](docs/screenshots/21-admin-simulation-finished.png)
 
+## Live demo (no install)
+
+The app is published automatically to **GitHub Pages** on every push:
+**https://deekshithagudise.github.io/GoMaxi/** (workflow: `.github/workflows/pages.yml`).
+
+Prefer Vercel? One click: [Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/DeekshithaGudise/GoMaxi) — `vercel.json` is already configured.
+
 ## Quick start
 
 Requirements: Node.js 18+ (tested on Node 22) and a modern browser (Chrome/Edge/Firefox/Safari). `npm` is

@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
 export default defineConfig({
+  // Set VITE_BASE=/GoMaxi/ when hosting under a sub-path (GitHub Pages); default '/' for Vercel/Netlify/local.
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
   server: { port: 5173 },
