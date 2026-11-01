@@ -49,17 +49,22 @@ export function evaluateGroups(state: AppState) {
         logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'dispatch_threshold', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Occupancy ${occ(n, g.capacity)}% ≥ target ${s.targetOccupancyPct}% (${g.threshold}/${g.capacity}). Boarding grace ${s.boardingGraceMin} min.` });
         emit(state, 'dispatch', `Occupancy reached ${occ(n, g.capacity)}% — dispatch initiated for ${g.vehicleId} → ${state.hotspots[g.hotspotId].name}`, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId }, isSim);
       } else if (t >= g.deadline) {
-        if (n >= s.minViablePassengers || s.underfilledPolicy === 'dispatch_if_viable' && n >= s.minViablePassengers) {
+        const policy = s.underfilledPolicy;
+        const maxRollovers = 2;
+        if (policy === 'cancel_refund' && n < s.minViablePassengers) {
+          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'cancel_refund', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Under-filled (${n} < ${s.minViablePassengers}) at timeout; policy = cancel with full refund.` });
+          cancelGroupWithRefund(state, g.id, 'Not enough passengers for a viable departure');
+        } else if (n >= s.minViablePassengers || (policy === 'dispatch_if_viable' && g.rollovers >= maxRollovers)) {
+          const stranded = n < s.minViablePassengers;
           patch(state, 'groups', g.id, { initiatedAt: t, initiatedReason: 'timeout' });
-          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'dispatch_timeout', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Max wait ${s.maxWaitMin} min reached with ${n} passengers (≥ viable floor ${s.minViablePassengers}); dispatching under-filled.` });
-          emit(state, 'dispatch', `Max wait reached — dispatching ${g.vehicleId} with ${n}/${g.capacity} passengers (${occ(n, g.capacity)}%)`, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId }, isSim);
-        } else if (s.underfilledPolicy === 'cancel_refund' || g.rollovers >= 2) {
-          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'cancel_refund', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Under-filled (${n} < ${s.minViablePassengers}) after ${g.rollovers} extension(s); cancelling with full refund.` });
+          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'dispatch_timeout', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: stranded ? `Under-filled after ${g.rollovers} extensions (${n} < ${s.minViablePassengers}); no-strand rule: dispatching anyway so passengers are not left waiting.` : `Max wait ${s.maxWaitMin} min reached with ${n} passengers (≥ viable floor ${s.minViablePassengers}); dispatching under-filled.` });
+          emit(state, 'dispatch', `Max wait reached — dispatching ${g.vehicleId} with ${n}/${g.capacity} passengers (${occ(n, g.capacity)}%)${stranded ? ' under the no-strand rule' : ''}`, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId }, isSim);
+        } else if (policy === 'rollover' && g.rollovers >= maxRollovers) {
+          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'cancel_refund', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Under-filled (${n} < ${s.minViablePassengers}) after ${g.rollovers} extensions; cancelling with full refund.` });
           cancelGroupWithRefund(state, g.id, 'Not enough passengers for a viable departure');
         } else {
-          // rollover / hold: extend window once more, keep vehicle
           patch(state, 'groups', g.id, { deadline: t + s.maxWaitMin * MIN, rollovers: g.rollovers + 1 });
-          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: s.underfilledPolicy === 'rollover' ? 'rollover' : 'hold_underfilled', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Under-filled (${n} < ${s.minViablePassengers}); offering next departure window (+${s.maxWaitMin} min).` });
+          logDecision(state, { groupId: g.id, tripId: trip.id, vehicleId: g.vehicleId, decision: 'rollover', passengers: n, capacity: g.capacity, occupancyPct: occ(n, g.capacity), rationale: `Under-filled (${n} < ${s.minViablePassengers}); offering next departure window (+${s.maxWaitMin} min), extension ${g.rollovers + 1} of ${maxRollovers}.` });
           emit(state, 'dispatch', `Group for ${state.hotspots[g.hotspotId].name} under-filled (${n}) — next departure offered in ${s.maxWaitMin} min`, { groupId: g.id }, isSim);
         }
       }

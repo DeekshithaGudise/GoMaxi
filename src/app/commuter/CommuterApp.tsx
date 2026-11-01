@@ -88,7 +88,7 @@ function HomeScreen() {
         </Card>
       ) : (
         <Card title="Available shared rides" subtitle={`From ${station.name} · live pooling`} action={<SimTag>Live</SimTag>}>
-          {forming.length === 0 && scheduled.length === 0 && <p className="text-sm text-slate-500">No group is forming right now. Book a seat and GoMaxi opens a new pool — departs within {state.settings.dispatch.maxWaitMin} min or as soon as {state.settings.dispatch.defaultCapacity * state.settings.dispatch.targetOccupancyPct / 100} seats fill.</p>}
+          {forming.length === 0 && scheduled.length === 0 && <p className="text-sm text-slate-500">No group is forming right now. Book a seat and GoMaxi opens a new pool — departs within {state.settings.dispatch.maxWaitMin} min or as soon as {Math.ceil(state.settings.dispatch.defaultCapacity * state.settings.dispatch.targetOccupancyPct / 100)} seats fill.</p>}
           <div className="space-y-2">
             {forming.map(({ g, n, trip }) => (
               <button key={g.id} onClick={() => nav(`/commuter/book?station=${stationId}&hotspot=${g.hotspotId}`)} className="flex w-full items-center gap-3 rounded-2xl border border-mist-200 p-3 text-left hover:border-electric">

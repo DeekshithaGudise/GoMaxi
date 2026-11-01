@@ -3,14 +3,14 @@ import { round } from '../util';
 
 export const DEFAULT_FINANCE: FinanceAssumptions = {
   vehicles: 10, tripsPerHour: 2, operatingHours: 5.5, occupancyPct: 80, averageFare: 25, commissionPct: 15,
-  driverIncentivePct: 2, paymentFeePct: 1.8, opexPerVehiclePerDay: 350, fixedMonthlyCost: 450000, maintenancePerTrip: 0,
+  driverIncentivePct: 2, paymentFeePct: 1.8, opexPerVehiclePerDay: 150, fixedMonthlyCost: 150000, maintenancePerTrip: 0,
   corporateContractsMonthly: 0, stations: 5, workingDaysPerMonth: 26,
 };
 
 export const FINANCE_SCENARIOS: Record<'conservative' | 'base' | 'optimistic', Partial<FinanceAssumptions> & { label: string; blurb: string }> = {
-  conservative: { label: 'Conservative', blurb: 'Slower ramp: 8 vehicles, 60% occupancy, 1.5 trips/hour, higher opex.', vehicles: 8, occupancyPct: 60, tripsPerHour: 1.5, operatingHours: 5, averageFare: 25, commissionPct: 15, opexPerVehiclePerDay: 420, fixedMonthlyCost: 500000, corporateContractsMonthly: 0 },
-  base: { label: 'Base case', blurb: 'Plan of record: 10 vehicles, 80% occupancy, 2 trips/hour, 5.5 operating hours.', ...DEFAULT_FINANCE },
-  optimistic: { label: 'Optimistic', blurb: 'Scaled pilot: 25 vehicles, 85% occupancy, 2.5 trips/hour, 2 corporate contracts.', vehicles: 25, occupancyPct: 85, tripsPerHour: 2.5, operatingHours: 6.5, averageFare: 27, commissionPct: 18, opexPerVehiclePerDay: 300, fixedMonthlyCost: 650000, corporateContractsMonthly: 240000, stations: 8 },
+  conservative: { label: 'Conservative', blurb: 'Slower ramp: 8 vehicles, 60% occupancy, 1.5 trips/hour, higher opex, no B2B revenue.', vehicles: 8, occupancyPct: 60, tripsPerHour: 1.5, operatingHours: 5, averageFare: 25, commissionPct: 15, opexPerVehiclePerDay: 200, fixedMonthlyCost: 175000, corporateContractsMonthly: 0 },
+  base: { label: 'Base case', blurb: 'Pilot plan: 10 vehicles, 80% occupancy, 2 trips/hour, 5.5 operating hours, lean 3-person team. Contribution-positive, not yet covering fixed cost — that needs scale or B2B.', ...DEFAULT_FINANCE },
+  optimistic: { label: 'Optimistic', blurb: 'Scaled network: 40 vehicles across 8 stations, 85% occupancy, 2.5 trips/hour, 18% take rate, ₹3L/month corporate shuttle contracts.', vehicles: 40, occupancyPct: 85, tripsPerHour: 2.5, operatingHours: 6.5, averageFare: 27, commissionPct: 18, opexPerVehiclePerDay: 200, fixedMonthlyCost: 500000, corporateContractsMonthly: 300000, stations: 8 },
 };
 
 /** Split a single fare according to the platform commission. */

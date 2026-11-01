@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Check, Wallet, CreditCard, Smartphone, Users, Clock3, ShieldCheck, Bike, CarTaxiFront } from 'lucide-react';
 import { useAppState, useDispatch, useNow } from '@/domain/store/hooks';
@@ -32,8 +32,9 @@ export function BookFlow() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CreateBookingResult | null>(null);
+  const bookingInFlight = useRef(false);
 
-  useEffect(() => { if (active && step !== 'done') nav(`/commuter/booking/${active.id}`, { replace: true }); }, [active, step, nav]);
+  useEffect(() => { if (active && !result && !bookingInFlight.current && step !== 'done') nav(`/commuter/booking/${active.id}`, { replace: true }); }, [active, step, nav, result]);
 
   const station = state.stations[stationId];
   const rule = hotspotId ? fareRule(stationId, hotspotId) : null;
@@ -45,14 +46,14 @@ export function BookFlow() {
   const eligibleHere = Object.values(state.vehicles).filter((v) => v.currentStationId === stationId && v.status === 'idle').length;
 
   const pay = async () => {
-    setBusy(true); setError(null);
+    setBusy(true); setError(null); bookingInFlight.current = true;
     await new Promise((r) => setTimeout(r, 1100)); // simulated gateway latency
     const res = await dispatch({ type: 'booking.create', input: { commuterId: userId, stationId, hotspotId: hotspotId!, payment: { method, forceFail, cardLast4: card.number.replace(/\s/g, '').slice(-4), upiId: upi }, womenPriority: women, anchorTripId: anchorId ?? undefined } });
     setBusy(false);
-    if (!res.ok) { setError(res.error); return; }
+    if (!res.ok) { bookingInFlight.current = false; setError(res.error); return; }
     const data = res.data as CreateBookingResult;
     setResult(data);
-    if (data.ok) setStep('done'); else setError(data.error ?? 'Payment failed');
+    if (data.ok) setStep('done'); else { bookingInFlight.current = false; setError(data.error ?? 'Payment failed'); }
   };
 
   const steps: Step[] = ['station', 'destination', 'ride', 'payment', 'done'];

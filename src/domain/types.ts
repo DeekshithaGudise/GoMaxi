@@ -394,7 +394,7 @@ export interface SimulationState {
   finishedAt?: Millis;
   spawnedBookingIds: ID[];
   rngState: number;
-  stats: { arrivals: number; bookings: number; dispatches: number; boarded: number; completed: number };
+  stats: { arrivals: number; bookings: number; dispatches: number; boarded: number; completed: number; refunded: number };
 }
 
 export interface Clock {

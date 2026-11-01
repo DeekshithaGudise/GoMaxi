@@ -9,10 +9,10 @@ export const STATE_VERSION = 1;
 
 export const DEFAULT_DISPATCH: DispatchSettings = {
   defaultCapacity: 12, targetOccupancyPct: 80, maxWaitMin: 5, minViablePassengers: 3, underfilledPolicy: 'dispatch_if_viable',
-  boardingGraceMin: 2, bookingExpiryMin: 20, allowDriverEarlyDeparture: true, nightSafeDropFrom: '20:00',
+  boardingGraceMin: 2, bookingExpiryMin: 30, allowDriverEarlyDeparture: true, nightSafeDropFrom: '20:00',
 };
 export const DEFAULT_WEIGHTS: DemandWeights = { historicalBookings: 0.3, metroExits: 0.2, officeHeadcount: 0.2, shiftAlignment: 0.1, residentialDensity: 0.1, transitGap: 0.1 };
-export const DEFAULT_SIM: SimulationParams = { stationId: 'st-byp', primaryHotspotId: 'hs-whf', demand: 35, vehicles: 5, startTime: '09:00', arrivalWindowMin: 12, hotspotMix: 0.75, seed: 42 };
+export const DEFAULT_SIM: SimulationParams = { stationId: 'st-byp', primaryHotspotId: 'hs-whf', demand: 35, vehicles: 5, startTime: '09:00', arrivalWindowMin: 12, hotspotMix: 0.8, seed: 42 };
 
 const HIST_COLORS = ['#64748B', '#475569', '#334155'];
 const HIST_FIRST = ['Aarav', 'Ishita', 'Kavya', 'Nikhil', 'Rhea', 'Varun', 'Anjali', 'Dev', 'Tanvi', 'Yash', 'Neha', 'Kiran', 'Sanjana', 'Harsha', 'Pallavi', 'Mohit', 'Swati', 'Ajay', 'Bhavana', 'Chetan'];
@@ -71,7 +71,7 @@ export function createInitialState(opts: { withHistory?: boolean; startTime?: st
     schedules: Object.fromEntries(seedSchedules(vehicles).map((s) => [s.vehicleId, s])),
     dispatchLog: [], activity: [],
     settings: { dispatch: { ...DEFAULT_DISPATCH }, finance: { ...DEFAULT_FINANCE }, demandWeights: { ...DEFAULT_WEIGHTS } },
-    simulation: { status: 'idle', params: { ...DEFAULT_SIM }, scheduledArrivals: [], nextArrivalIdx: 0, spawnedBookingIds: [], rngState: 42, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0 } },
+    simulation: { status: 'idle', params: { ...DEFAULT_SIM }, scheduledArrivals: [], nextArrivalIdx: 0, spawnedBookingIds: [], rngState: 42, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0, refunded: 0 } },
     counters: { booking: 10000, group: 500, trip: 3000, payment: 70000, boarding: 1, alert: 100, earning: 1, decision: 1, event: 1, user: 1, route: 10 },
   };
 

@@ -119,7 +119,7 @@ function run(state: AppState, cmd: Command): unknown {
     }
     case 'admin.upsertRoute': { if (!cmd.route.name.trim()) throw new EngineError('invalid', 'Route needs a name'); if (!cmd.route.stopHotspotIds.length) throw new EngineError('invalid', 'Add at least one stop'); upsertRoute(state, { ...cmd.route, id: cmd.route.id || nextId(state, 'route', 'rt') }); return state.anchorRoutes; }
     case 'admin.deleteRoute': deleteRoute(state, cmd.routeId); return undefined;
-    case 'sim.start': startSimulation(state, cmd.params); return state.simulation;
+    case 'sim.start': if (state.simulation.status === 'finished' || state.simulation.status === 'paused') resetSimulation(state); if (state.simulation.status === 'running') throw new EngineError('invalid', 'Simulation already running'); startSimulation(state, cmd.params); return state.simulation;
     case 'sim.pause': pauseSimulation(state); return state.simulation;
     case 'sim.resume': resumeSimulation(state); return state.simulation;
     case 'sim.reset': resetSimulation(state); return state.simulation;

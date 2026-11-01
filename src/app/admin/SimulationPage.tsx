@@ -67,7 +67,7 @@ export function SimulationPage({ embedded = false }: { embedded?: boolean }) {
           <Stat label="Bookings" value={sim.stats.bookings} tone="blue" sub={`${spawned.filter((b) => ['confirmed', 'assigned'].includes(b.status)).length} waiting`} />
           <Stat label="Boarded" value={sim.stats.boarded} tone="cyan" />
           <Stat label="Dispatches" value={sim.stats.dispatches} tone="amber" sub={`${activeTrips.length} active`} />
-          <Stat label="Completed pax" value={sim.stats.completed} tone="green" />
+          <Stat label="Completed pax" value={sim.stats.completed} tone="green" sub={sim.stats.refunded ? `${sim.stats.refunded} refunded — no vehicle in time` : 'all served so far'} />
           <Stat label="Avg occupancy" value={`${avgOcc}%`} tone={avgOcc >= 75 ? 'green' : 'amber'} sub="departed trips" />
           <Stat label="GBV · commission" value={inr(gbv)} sub={`${inr(commission)} GoMaxi`} />
           <Stat label="Driver payouts" value={inr(payout)} tone="green" />
@@ -84,7 +84,7 @@ export function SimulationPage({ embedded = false }: { embedded?: boolean }) {
           </Card>
           <Card title="Live activity feed" subtitle="Same events the ops overview sees"><ActivityFeed height={560} sinceAt={since} /></Card>
         </div>
-        {sim.status === 'finished' && <Callout tone="success" title="Scenario finished">{sim.stats.bookings} bookings → {sim.stats.dispatches} dispatches → {sim.stats.completed} passengers delivered at {avgOcc}% average occupancy. GBV {inr(gbv)}, GoMaxi commission {inr(commission)}, driver payouts {inr(payout)}. Reset to run again or change parameters.</Callout>}
+        {sim.status === 'finished' && <Callout tone="success" title="Scenario finished">{sim.stats.bookings} bookings → {sim.stats.dispatches} dispatches → {sim.stats.completed} passengers delivered at {avgOcc}% average occupancy{sim.stats.refunded ? `; ${sim.stats.refunded} refunded because no vehicle returned within the booking window (add vehicles or shorten cycles)` : ''}. GBV {inr(gbv)}, GoMaxi commission {inr(commission)}, driver payouts {inr(payout)}. Reset to run again or change parameters.</Callout>}
       </>)}
     </div>
   );

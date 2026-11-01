@@ -34,7 +34,7 @@ export function FinancePage() {
           <Stat label="Operating expenses" value={inrCompact(u.variableOpexPerMonth + u.fixedCostPerMonth + u.maintenancePerMonth)} sub={`${inrCompact(u.variableOpexPerMonth)} variable + ${inrCompact(u.fixedCostPerMonth)} fixed`} tone="amber" />
           <Stat label="Contribution margin" value={inrCompact(u.contributionMarginPerMonth)} sub={`${u.contributionMarginPct.toFixed(1)}% of GBV`} tone={u.contributionMarginPerMonth >= 0 ? 'green' : 'red'} />
           <Stat label="Break-even trips" value={isFinite(u.breakEvenTripsPerMonth) ? Math.ceil(u.breakEvenTripsPerMonth).toLocaleString('en-IN') : '∞'} sub={isFinite(u.breakEvenTripsPerVehiclePerDay) ? `${u.breakEvenTripsPerVehiclePerDay.toFixed(1)} per vehicle per day` : 'take rate too low'} />
-          <Stat label="Break-even occupancy" value={isFinite(u.breakEvenOccupancyPct) ? `${u.breakEvenOccupancyPct.toFixed(0)}%` : '∞'} sub={`at ${u.tripsPerVehiclePerDay.toFixed(1)} trips/vehicle/day`} tone={u.breakEvenOccupancyPct <= a.occupancyPct ? 'green' : 'red'} />
+          <Stat label="Break-even occupancy" value={!isFinite(u.breakEvenOccupancyPct) ? '∞' : u.breakEvenOccupancyPct > 100 ? '>100%' : `${u.breakEvenOccupancyPct.toFixed(0)}%`} sub={u.breakEvenOccupancyPct > 100 ? 'not reachable at this fleet size — add vehicles or B2B revenue' : `at ${u.tripsPerVehiclePerDay.toFixed(1)} trips/vehicle/day`} tone={u.breakEvenOccupancyPct <= a.occupancyPct ? 'green' : 'amber'} />
         </div>
         <div className="grid gap-4 xl:grid-cols-3">
           <Card className="xl:col-span-2" title="Adjustable assumptions">

@@ -190,7 +190,7 @@ describe('pooling & dispatch', () => {
 
   it('expires a booking that never gets a vehicle and refunds it', () => {
     const r = book(store, 'usr-c11', 'hs-orr', 'st-tri');
-    store.advance(25 * MIN);
+    store.advance(35 * MIN);
     const s = store.getState();
     expect(s.bookings[r.booking.id].status).toBe('expired');
     expect(s.payments[r.payment.id].status).toBe('refunded');
@@ -326,7 +326,8 @@ describe('live simulation', () => {
     const a = run(); const b = run();
     expect(a.simulation.status).toBe('finished');
     expect(a.simulation.stats.bookings).toBeGreaterThanOrEqual(30);
-    expect(a.simulation.stats.completed).toBeGreaterThanOrEqual(Math.floor(a.simulation.stats.bookings * 0.8));
+    expect(a.simulation.stats.completed + a.simulation.stats.refunded).toBe(a.simulation.stats.bookings); // every passenger is either delivered or refunded
+    expect(a.simulation.stats.completed).toBeGreaterThanOrEqual(Math.floor(a.simulation.stats.bookings * 0.85));
     const spawned = a.simulation.spawnedBookingIds.map((id) => a.bookings[id]);
     expect(spawned.every((b) => ['completed', 'cancelled', 'expired'].includes(b.status))).toBe(true);
     expect(a.simulation.stats).toEqual(b.simulation.stats);

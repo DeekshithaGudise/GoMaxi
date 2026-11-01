@@ -5,7 +5,7 @@ import { validateAndBoard } from './boarding';
 import { mulberry32, timeAt, dayStartOf, MIN } from '../util';
 import { pickWeighted } from '../store/initialState';
 
-const AFFINITY_FALLBACK: Record<string, number> = { 'hs-itpl': 0.45, 'hs-bag': 0.35, 'hs-orr': 0.2 };
+const AFFINITY_FALLBACK: Record<string, number> = { 'hs-itpl': 0.6, 'hs-bag': 0.4 };
 
 export function startSimulation(state: AppState, params: SimulationParams) {
   const rng = mulberry32(params.seed);
@@ -41,7 +41,7 @@ export function startSimulation(state: AppState, params: SimulationParams) {
   }
   for (const d of vals(state.drivers)) if (d.availability === 'offline' && d.vehicleId && state.vehicles[d.vehicleId]?.currentStationId === params.stationId && state.vehicles[d.vehicleId].status === 'idle' && d.id !== 'usr-d09') patch(state, 'drivers', d.id, { availability: 'available' });
   state.clock = { ...state.clock, simTime: startAt, running: true, speed: state.clock.speed < 4 ? 8 : state.clock.speed };
-  state.simulation = { status: 'running', params, scheduledArrivals: arrivals, nextArrivalIdx: 0, startedAt: startAt, spawnedBookingIds: [], rngState: params.seed, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0 } };
+  state.simulation = { status: 'running', params, scheduledArrivals: arrivals, nextArrivalIdx: 0, startedAt: startAt, spawnedBookingIds: [], rngState: params.seed, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0, refunded: 0 } };
   emit(state, 'system', `LIVE SIMULATION started: ${params.demand} commuters arriving at ${state.stations[params.stationId].name} from ${params.startTime}, ${count} vehicles available, ${Math.round(params.hotspotMix * 100)}% heading to ${state.hotspots[params.primaryHotspotId].name}`, { stationId: params.stationId }, true);
 }
 
@@ -87,9 +87,10 @@ export function tickSimulation(state: AppState) {
   }
   stats.dispatches = state.dispatchLog.filter((d) => sim.startedAt && d.at >= sim.startedAt && d.decision.startsWith('dispatch')).length;
   stats.completed = spawned.filter((id) => state.bookings[id]?.status === 'completed').length;
+  stats.refunded = spawned.filter((id) => ['expired', 'cancelled'].includes(state.bookings[id]?.status)).length;
   const allDone = idx >= sim.scheduledArrivals.length && spawned.length > 0 && spawned.every((id) => !ACTIVE_BOOKING.has(state.bookings[id]?.status)) && !vals(state.vehicles).some((v) => v.status === 'returning' || v.status === 'on_trip');
   state.simulation = { ...sim, nextArrivalIdx: idx, spawnedBookingIds: spawned, stats, rngState: sim.rngState, ...(allDone ? { status: 'finished' as const, finishedAt: t } : {}) };
-  if (allDone) emit(state, 'system', `Simulation complete: ${stats.bookings} bookings, ${stats.dispatches} dispatches, ${stats.completed} passengers delivered`, {}, true);
+  if (allDone) emit(state, 'system', `Simulation complete: ${stats.bookings} bookings, ${stats.dispatches} dispatches, ${stats.completed} passengers delivered${stats.refunded ? `, ${stats.refunded} refunded (no vehicle in time)` : ''}`, {}, true);
 }
 
 /** Removes everything the simulation created, restores vehicles, and resets the clock to the scenario start. */
@@ -132,6 +133,6 @@ export function resetSimulation(state: AppState) {
   state.dispatchLog = state.dispatchLog.filter((d) => d.at < startedAt);
   state.activity = state.activity.filter((e) => !(e.simulated && e.at >= startedAt));
   state.clock = { ...state.clock, simTime: timeAt(sim.params.startTime, dayStartOf(startedAt)) - MIN, running: true };
-  state.simulation = { status: 'idle', params: sim.params, scheduledArrivals: [], nextArrivalIdx: 0, spawnedBookingIds: [], rngState: sim.params.seed, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0 } };
+  state.simulation = { status: 'idle', params: sim.params, scheduledArrivals: [], nextArrivalIdx: 0, spawnedBookingIds: [], rngState: sim.params.seed, stats: { arrivals: 0, bookings: 0, dispatches: 0, boarded: 0, completed: 0, refunded: 0 } };
   emit(state, 'system', 'Simulation reset — scenario data cleared, fleet returned to stations', {});
 }
