@@ -1,10 +1,12 @@
 import { Routes, Route, NavLink, Link, useNavigate } from 'react-router-dom';
 import { Home, Ticket, History, ShieldCheck, LogOut, MapPin, ArrowRight, Sparkles, Leaf, Clock3, Users } from 'lucide-react';
 import { useState } from 'react';
-import { useAppState, useNow } from '@/domain/store/hooks';
+import { useAppState, useNow, useDispatch } from '@/domain/store/hooks';
 import { useSession } from '@/app/session';
 import { useCommuter } from './useCommuter';
-import { Logo, Avatar, Card, Badge, Button, StatusBadge, Progress, SimTag } from '@/app/shared/ui';
+import { Logo, Avatar, Card, Badge, Button, StatusBadge, Progress, SimTag, useToast } from '@/app/shared/ui';
+import type { CreateBookingResult } from '@/domain/engine/booking';
+import { Zap } from 'lucide-react';
 import { ClockWidget } from '@/app/shared/ClockWidget';
 import { BookFlow } from './BookFlow';
 import { BookingDetail } from './BookingDetail';
@@ -82,6 +84,8 @@ function HomeScreen() {
         <div className="mt-3 text-[11px] text-white/60">Pickup: {station.pickupBay}</div>
       </section>
 
+      {!active && <QuickBook stationId={stationId} />}
+
       {active ? (
         <Card className="border-electric/30 ring-2 ring-electric/15" title="Your upcoming ride" action={<StatusBadge status={active.status} />}>
           <ActiveSummary bookingId={active.id} />
@@ -134,6 +138,39 @@ function HomeScreen() {
         </ul>
       </Card>
     </div>
+  );
+}
+
+/** One-tap booking of the commuter's usual destination (UPI, simulated) — the fastest path to a boarding pass. */
+function QuickBook({ stationId }: { stationId: string }) {
+  const { userId, commuter } = useCommuter();
+  const hotspots = useAppState((s) => s.hotspots);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const nav = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const hotspotId = commuter.preferredHotspotId && hotspots[commuter.preferredHotspotId] ? commuter.preferredHotspotId : Object.values(hotspots).map((h) => ({ h, r: fareRule(stationId, h.id) })).sort((a, b) => a.r.distanceKm - b.r.distanceKm)[0].h.id;
+  const rule = fareRule(stationId, hotspotId);
+  const book = async () => {
+    setBusy(true);
+    await new Promise((r) => setTimeout(r, 700));
+    const res = await dispatch({ type: 'booking.create', input: { commuterId: userId, stationId, hotspotId, payment: { method: 'upi' }, womenPriority: commuter.womenPriorityDefault } });
+    setBusy(false);
+    if (!res.ok) { toast({ tone: 'danger', title: 'Could not book', body: res.error }); return; }
+    const data = res.data as CreateBookingResult;
+    if (!data.ok) { toast({ tone: 'danger', title: 'Payment failed', body: data.error }); return; }
+    toast({ tone: 'success', title: `Seat booked · ${data.booking.id}`, body: data.trip ? `${data.trip.vehicleId} assigned — show your QR at the bay` : 'Pooling — vehicle on its way' });
+    nav(`/commuter/booking/${data.booking.id}`);
+  };
+  return (
+    <Card className="border-cyan/40 bg-gradient-to-br from-white to-cyan-50">
+      <div className="flex items-center gap-3">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-cyan text-navy"><Zap size={20} /></div>
+        <div className="flex-1 min-w-0"><div className="label">One-tap booking</div><div className="truncate font-display font-extrabold">{hotspots[hotspotId].name}</div><div className="text-xs text-slate-500">{rule.distanceKm} km · ~{rule.durationMin} min · pays {inr(rule.fare)} via UPI (simulated)</div></div>
+        <Button size="lg" loading={busy} onClick={book}>{busy ? 'Booking…' : `Book now · ${inr(rule.fare)}`}</Button>
+      </div>
+      <button onClick={() => nav(`/commuter/book?station=${stationId}`)} className="mt-2 text-xs font-semibold text-electric">Different destination or payment method →</button>
+    </Card>
   );
 }
 

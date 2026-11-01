@@ -10,6 +10,7 @@ const DriverApp = lazy(() => import('@/app/driver/DriverApp'));
 const AdminApp = lazy(() => import('@/app/admin/AdminApp'));
 const DemoApp = lazy(() => import('@/app/demo/DemoApp'));
 const ShareTripPage = lazy(() => import('@/app/commuter/ShareTripPage'));
+const LaunchPage = lazy(() => import('@/app/LaunchPage'));
 
 function RequireRole({ roles, children }: { roles: Role[]; children: ReactNode }) {
   const { session } = useSession();
@@ -27,6 +28,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/launch" element={<LaunchPage />} />
         <Route path="/share/:token" element={<ShareTripPage />} />
         <Route path="/demo/*" element={<DemoApp />} />
         <Route path="/commuter/*" element={<RequireRole roles={['commuter']}><CommuterApp /></RequireRole>} />

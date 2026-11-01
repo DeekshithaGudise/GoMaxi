@@ -25,6 +25,8 @@ regulatory research and a complete test suite.
 The app is published automatically to **GitHub Pages** on every push (built site lives on the `gh-pages` branch):
 **https://deekshithagudise.github.io/GoMaxi/** (workflow: `.github/workflows/pages.yml`).
 
+Fastest way to demo: the one-click **launch pad** at **https://deekshithagudise.github.io/GoMaxi/launch** — every button logs you straight into an app, and one button opens the commuter / driver / admin tabs together.
+
 Prefer Vercel? One click: [Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/DeekshithaGudise/GoMaxi) — `vercel.json` is already configured.
 
 ## Quick start

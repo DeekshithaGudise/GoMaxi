@@ -24,7 +24,7 @@ await c.getByRole('button', { name: /Create account/ }).click(); await c.waitFor
 await c.getByText(/Test, where to today/).waitFor();
 ok('Registration creates a commuter and logs in', true);
 await c.goto(`${BASE}/commuter/book?station=st-byp&hotspot=hs-whf`);
-await c.getByRole('button', { name: /Continue to payment/ }).click();
+await c.getByRole('button', { name: /Choose card, wallet/ }).click();
 await c.getByRole('switch').click(); // simulate failure
 await c.getByRole('button', { name: /^Pay ₹/ }).click();
 await c.getByText('Payment failed').waitFor();
@@ -49,8 +49,7 @@ ok('Cancellation refunds the wallet in full and releases the vehicle', s.booking
 
 // New booking → SOS + share
 await c.goto(`${BASE}/commuter/book?station=st-byp&hotspot=hs-bag`);
-await c.getByRole('button', { name: /Continue to payment/ }).click();
-await c.getByRole('button', { name: /^Pay ₹/ }).click();
+await c.getByRole('button', { name: /^Pay ₹.*UPI/ }).click();
 await c.getByText('Seat confirmed').waitFor();
 await c.getByRole('button', { name: /Track my ride/ }).click();
 await c.getByRole('button', { name: 'SOS' }).click();
@@ -118,8 +117,7 @@ if (dep) {
   await c.getByText(/Whitefield Connector/).waitFor();
   await c.getByText(/Whitefield Connector/).click();
   await c.getByText('Scheduled departure').waitFor();
-  await c.getByRole('button', { name: /Continue to payment/ }).click();
-  await c.getByRole('button', { name: /^Pay ₹/ }).click();
+  await c.getByRole('button', { name: /^Pay ₹.*UPI/ }).click();
   await c.getByText('Seat confirmed').waitFor();
   s = await st(c);
   const ab = Object.values(s.bookings).find((x) => x.commuterId === me.id && x.anchorDepartureId === dep.id);

@@ -45,15 +45,16 @@ export function BookFlow() {
   const formingTrip = forming?.tripId ? state.trips[forming.tripId] : undefined;
   const eligibleHere = Object.values(state.vehicles).filter((v) => v.currentStationId === stationId && v.status === 'idle').length;
 
-  const pay = async () => {
+  const pay = async (quickUpi = false) => {
+    if (quickUpi) setMethod('upi');
     setBusy(true); setError(null); bookingInFlight.current = true;
     await new Promise((r) => setTimeout(r, 1100)); // simulated gateway latency
-    const res = await dispatch({ type: 'booking.create', input: { commuterId: userId, stationId, hotspotId: hotspotId!, payment: { method, forceFail, cardLast4: card.number.replace(/\s/g, '').slice(-4), upiId: upi }, womenPriority: women, anchorTripId: anchorId ?? undefined } });
+    const res = await dispatch({ type: 'booking.create', input: { commuterId: userId, stationId, hotspotId: hotspotId!, payment: { method: quickUpi ? 'upi' : method, forceFail: quickUpi ? false : forceFail, cardLast4: card.number.replace(/\s/g, '').slice(-4), upiId: upi }, womenPriority: women, anchorTripId: anchorId ?? undefined } });
     setBusy(false);
     if (!res.ok) { bookingInFlight.current = false; setError(res.error); return; }
     const data = res.data as CreateBookingResult;
     setResult(data);
-    if (data.ok) setStep('done'); else { bookingInFlight.current = false; setError(data.error ?? 'Payment failed'); }
+    if (data.ok) setStep('done'); else { bookingInFlight.current = false; setError(data.error ?? 'Payment failed'); if (quickUpi) setStep('payment'); }
   };
 
   const steps: Step[] = ['station', 'destination', 'ride', 'payment', 'done'];
@@ -118,7 +119,8 @@ export function BookFlow() {
           )}
           <Card><Toggle checked={women} onChange={setWomen} label="Women-priority seating" description="Front-row seats are held for passengers who opt in; the driver sees this on your pass." /></Card>
           <Callout tone="info"><ShieldCheck size={14} className="inline mr-1" />Free cancellation until dispatch is initiated; 50% refund after. Driver and vehicle details appear on your pass.</Callout>
-          <Button size="lg" className="w-full" onClick={() => setStep('payment')}>Continue to payment · {inr(fare)} <ArrowRight size={16} /></Button>
+          <Button size="lg" className="w-full" loading={busy} onClick={() => pay(true)}>{busy ? 'Booking…' : <>Pay {inr(fare)} with UPI & book <ArrowRight size={16} /></>}</Button>
+          <Button size="md" variant="secondary" className="w-full" onClick={() => setStep('payment')}>Choose card, wallet or other options</Button>
         </div>
       )}
 
@@ -137,7 +139,7 @@ export function BookFlow() {
             <div className="mt-3 border-t border-mist-200 pt-3"><Toggle checked={forceFail} onChange={setForceFail} label="Demo: simulate gateway failure" description="Shows the failure path and retry." /></div>
           </Card>
           {error && <Callout tone="danger" title="Payment failed">{error} — nothing was charged. Please try again or choose another method.</Callout>}
-          <div className="card card-pad flex items-center justify-between"><div><div className="label">Total</div><div className="font-display text-2xl font-extrabold">{inr(fare)}</div></div><Button size="lg" loading={busy} onClick={pay}>{busy ? 'Processing…' : `Pay ${inr(fare)}`}</Button></div>
+          <div className="card card-pad flex items-center justify-between"><div><div className="label">Total</div><div className="font-display text-2xl font-extrabold">{inr(fare)}</div></div><Button size="lg" loading={busy} onClick={() => pay()}>{busy ? 'Processing…' : `Pay ${inr(fare)}`}</Button></div>
         </div>
       )}
 

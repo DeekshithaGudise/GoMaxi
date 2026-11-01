@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Smartphone, Car, LayoutDashboard, TrainFront, Presentation, ArrowRight, ShieldCheck, Users, Timer, IndianRupee } from 'lucide-react';
 import { useAppState, useDispatch } from '@/domain/store/hooks';
@@ -31,6 +31,12 @@ export function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // One-click deep login: /login?as=usr-c01 (used by the /launch page)
+  useEffect(() => {
+    const as = params.get('as');
+    if (as && users[as]) { const u = users[as]; login({ userId: u.id, role: u.role }); nav(ROLES.find((x) => x.role === u.role)!.path, { replace: true }); }
+  }, [params, users, login, nav]);
+
   const go = (userId: string, r: Role) => { login({ userId, role: r }); const next = params.get('next'); nav(next && next.startsWith(`/${r === 'metro' ? 'metro' : r}`) ? next : ROLES.find((x) => x.role === r)!.path); };
 
   const register = async () => {
@@ -52,6 +58,7 @@ export function LoginPage() {
           <Logo light size={36} tagline />
           <div className="flex items-center gap-2">
             <ClockWidget light compact />
+            <Link to="/launch" className="btn btn-sm btn-secondary !bg-white/10 !text-white !border-white/20 whitespace-nowrap hidden sm:inline-flex">Launch pad</Link>
             <Link to="/demo" className="btn btn-sm bg-cyan text-navy hover:brightness-110 font-bold whitespace-nowrap"><Presentation size={14} /> <span className="hidden sm:inline">GoMaxi </span>Live Demo</Link>
           </div>
         </header>
