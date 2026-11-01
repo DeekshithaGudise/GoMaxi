@@ -22,7 +22,20 @@ regulatory research and a complete test suite.
 
 ## Quick start
 
-Requirements: Node 18+ (tested on Node 22), a modern browser (Chrome/Edge/Firefox/Safari).
+Requirements: Node.js 18+ (tested on Node 22) and a modern browser (Chrome/Edge/Firefox/Safari). `npm` is
+installed together with Node.js — if PowerShell says `npm is not recognized`, Node.js is not installed yet.
+
+**Windows (easiest):** download the repository, open PowerShell in the project folder and run
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass; .\setup-windows.ps1
+```
+
+The script installs Node.js LTS if needed (via winget), installs dependencies and opens the app. If it says to
+reopen PowerShell, do that and run it once more.
+
+**Manual (Windows / macOS / Linux):** install Node.js LTS from https://nodejs.org, open a new terminal in the
+project folder, then
 
 ```bash
 npm install
