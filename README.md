@@ -22,7 +22,7 @@ regulatory research and a complete test suite.
 
 ## Live demo (no install)
 
-The app is published automatically to **GitHub Pages** on every push:
+The app is published automatically to **GitHub Pages** on every push (built site lives on the `gh-pages` branch):
 **https://deekshithagudise.github.io/GoMaxi/** (workflow: `.github/workflows/pages.yml`).
 
 Prefer Vercel? One click: [Deploy with Vercel](https://vercel.com/new/clone?repository-url=https://github.com/DeekshithaGudise/GoMaxi) — `vercel.json` is already configured.
