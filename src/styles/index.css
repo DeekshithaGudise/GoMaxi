@@ -1,0 +1,39 @@
+@import 'leaflet/dist/leaflet.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html, body, #root { height: 100%; }
+body { @apply bg-mist text-navy antialiased font-sans; -webkit-tap-highlight-color: transparent; }
+* { scrollbar-width: thin; scrollbar-color: #D2DBE8 transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #D2DBE8; border-radius: 8px; }
+
+@layer components {
+  .card { @apply bg-white rounded-2xl shadow-card border border-mist-200; }
+  .card-pad { @apply p-4 sm:p-5; }
+  .label { @apply text-xs font-semibold uppercase tracking-wide text-slate-500; }
+  .input { @apply w-full rounded-xl border border-mist-300 bg-white px-3.5 py-2.5 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-electric/30 focus:border-electric transition; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none select-none; }
+  .btn-md { @apply px-4 py-2.5 text-sm; }
+  .btn-sm { @apply px-3 py-1.5 text-xs; }
+  .btn-lg { @apply px-5 py-3.5 text-base; }
+  .btn-primary { @apply bg-electric text-white hover:bg-electric-600 shadow-lift; }
+  .btn-secondary { @apply bg-white text-navy border border-mist-300 hover:bg-mist-50; }
+  .btn-ghost { @apply bg-transparent text-navy hover:bg-mist-100; }
+  .btn-danger { @apply bg-coral text-white hover:brightness-95; }
+  .btn-success { @apply bg-go text-white hover:bg-go-600; }
+  .btn-dark { @apply bg-navy text-white hover:bg-navy-700; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold; }
+  .mobile-shell { @apply mx-auto w-full max-w-md min-h-screen bg-mist relative; }
+  .glass { @apply bg-white/80 backdrop-blur-md; }
+  .grid-bg { background-image: radial-gradient(rgba(37,99,235,0.12) 1px, transparent 1px); background-size: 22px 22px; }
+  .hero-gradient { background: radial-gradient(1200px 500px at 10% -10%, rgba(32,196,216,0.35), transparent 60%), radial-gradient(900px 500px at 100% 0%, rgba(37,99,235,0.45), transparent 60%), #10243A; }
+}
+
+.leaflet-container { font-family: inherit; background: #E6ECF4; border-radius: 1rem; }
+.leaflet-container .leaflet-control-attribution { font-size: 10px; background: rgba(255,255,255,0.7); }
+.vehicle-marker { background: transparent; border: none; }
+.recharts-default-tooltip { border-radius: 12px !important; border: 1px solid #E6ECF4 !important; box-shadow: 0 8px 24px -12px rgba(16,36,58,0.3); font-size: 12px; }
+@media print { .no-print { display: none !important; } }

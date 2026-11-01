@@ -46,7 +46,7 @@ export type Command =
   | { type: 'clock.jump'; minutes: number }
   | { type: 'data.resetAll' };
 
-export type CommandResult = { ok: true; data?: unknown } | { ok: false; error: string; code?: string };
+export type CommandResult = { ok: true; data?: unknown; error?: undefined; code?: undefined } | { ok: false; error: string; code?: string; data?: undefined };
 
 /** Executes a command against the state (mutating). Returns a serialisable result. */
 export function execute(state: AppState, cmd: Command): CommandResult {
