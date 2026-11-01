@@ -26,6 +26,12 @@
 (commuter, driver, admin) sharing one engine, and captures screenshots to `e2e-output/`. Run
 `npm run build && npm run preview` first. Latest run: 19/19 checks passed.
 
+## Secondary flows — `npm run e2e:secondary`
+`scripts/secondary-flows.mjs` covers registration, simulated payment failure and wallet payment, cancellation with
+refund and vehicle release, SOS → admin resolution, public live-trip share page, offline scan queue sync without
+double boarding, anchor-route departure generation and booking, and live dispatch-settings changes. Latest run:
+15/15 checks passed.
+
 ## Manual test notes
 * Camera scanning needs a real device with a camera and a secure origin; in headless or desktop runs use the
   manual booking-ID fallback and the offline queue toggle.

@@ -47,12 +47,12 @@ export function Donut({ data, height = 220, format, center }: { data: { name: st
     <div className="relative">
       <ResponsiveContainer width="100%" height={height}>
         <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" innerRadius="62%" outerRadius="88%" paddingAngle={2} stroke="none">{data.map((d, i) => <Cell key={d.name} fill={d.color ?? PALETTE[i % PALETTE.length]} />)}</Pie>
+          <Pie data={data} dataKey="value" nameKey="name" innerRadius={Math.round(height * 0.26)} outerRadius={Math.round(height * 0.37)} paddingAngle={2} stroke="none" isAnimationActive={false}>{data.map((d, i) => <Cell key={d.name} fill={d.color ?? PALETTE[i % PALETTE.length]} />)}</Pie>
           <Tooltip formatter={(v: number) => (format ? format(v) : v)} />
           <Legend wrapperStyle={{ fontSize: 11 }} iconType="circle" />
         </PieChart>
       </ResponsiveContainer>
-      {center && <div className="pointer-events-none absolute inset-x-0 top-[38%] text-center">{center}</div>}
+      {center && <div className="pointer-events-none absolute inset-x-0 text-center" style={{ top: height * 0.5 - 22 - 14 }}>{center}</div>}
     </div>
   );
 }

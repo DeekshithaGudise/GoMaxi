@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "GoMaxi — metro-integrated shared last-mile mobility platform (interactive prototype)",
+  "description": "GoMaxi \u2014 metro-integrated shared last-mile mobility platform (interactive prototype)",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -p tsconfig.json --noEmit && vite build",
@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "e2e": "node scripts/acceptance.mjs"
+    "e2e": "node scripts/acceptance.mjs",
+    "e2e:secondary": "node scripts/secondary-flows.mjs"
   },
   "dependencies": {
     "html5-qrcode": "^2.3.8",

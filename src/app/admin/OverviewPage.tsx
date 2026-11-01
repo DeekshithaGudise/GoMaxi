@@ -19,7 +19,7 @@ export function OverviewPage({ mode }: { mode: 'admin' | 'metro' }) {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
         <Stat label="Registered commuters" value={m.registeredCommuters} icon={<Users size={16} />} sub={`${m.activeBookings} active bookings now`} />
         <Stat label="Active drivers" value={m.activeDrivers} icon={<Car size={16} />} sub={`${Object.keys(state.drivers).length} onboarded`} tone="blue" />
-        <Stat label="Available vehicles" value={`${m.availableVehicles}/${m.eligibleVehicles}`} icon={<Bus size={16} />} sub={`${m.totalVehicles - m.eligibleVehicles} blocked by compliance`} tone="cyan" />
+        <Stat label="Available vehicles" value={`${m.availableVehicles}/${m.eligibleVehicles}`} icon={<Bus size={16} />} sub={`idle / eligible · ${m.totalVehicles - m.eligibleVehicles} of ${m.totalVehicles} blocked by compliance`} tone="cyan" />
         <Stat label="Active trips" value={m.activeTrips} icon={<Activity size={16} />} sub={`${m.enRoute} en route`} tone="green" />
         <Stat label="Total bookings" value={m.totalBookings} icon={<Ticket size={16} />} sub={`${m.bookingsToday} today`} />
         <Stat label="Average occupancy" value={`${m.avgOccupancyPct}%`} icon={<Percent size={16} />} sub={`target ${state.settings.dispatch.targetOccupancyPct}%`} tone={m.avgOccupancyPct >= 75 ? 'green' : 'amber'} />

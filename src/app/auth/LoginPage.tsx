@@ -52,7 +52,7 @@ export function LoginPage() {
           <Logo light size={36} tagline />
           <div className="flex items-center gap-2">
             <ClockWidget light compact />
-            <Link to="/demo" className="btn btn-sm bg-cyan text-navy hover:brightness-110 font-bold"><Presentation size={14} /> GoMaxi Live Demo</Link>
+            <Link to="/demo" className="btn btn-sm bg-cyan text-navy hover:brightness-110 font-bold whitespace-nowrap"><Presentation size={14} /> <span className="hidden sm:inline">GoMaxi </span>Live Demo</Link>
           </div>
         </header>
 
