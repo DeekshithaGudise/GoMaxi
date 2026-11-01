@@ -1,0 +1,302 @@
+[
+  {
+    "id": "vehicle-contract-carriage-permit",
+    "category": "vehicle",
+    "requirement": "Hold a valid contract carriage permit under MV Act s.74 for each maxi cab before it carries any passenger.",
+    "authority": "Regional Transport Authority / RTO, Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://odishatransport.gov.in/mvach1",
+    "notes": "s.66(1) prohibits use as a transport vehicle without a permit; s.192A fine up to Rs 10,000. Permit must be in force for the vehicle registration number and the Bengaluru area.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-permit-use-matches-category",
+    "category": "vehicle",
+    "requirement": "Confirm with counsel and the RTO that per-seat pooled trips from a metro station do not convert the trip into unlicensed stage carriage operation.",
+    "authority": "Karnataka Transport Department / State Transport Authority",
+    "classification": "risk",
+    "sourceUrl": "https://www.thenewsminute.com/article/bengaluru-officials-seize-2-ola-shuttles-operating-illegally-want-revoke-licence-59494",
+    "notes": "s.2(7) requires hire of the vehicle as a whole without en-route pick-up; s.2(40) defines stage carriage by separate fares. Ola Shuttle and ZipGo Tempo Travellers were seized in 2017 on this basis.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-commercial-yellow-board-registration",
+    "category": "vehicle",
+    "requirement": "Register each vehicle as a transport vehicle (yellow board, maxi cab class) and never dispatch white-board private vehicles.",
+    "authority": "RTO, Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://inc42.com/buzz/transport-dept-tightens-noose-on-illegal-carpooling-in-bengaluru/",
+    "notes": "The 2023 carpooling crackdown threatened RC suspension and Rs 5,000-10,000 fines for private cars used commercially.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-fitness-certificate",
+    "category": "vehicle",
+    "requirement": "Verify a valid certificate of fitness for each vehicle (2 years when new, renewal every 2 years up to 8 years of age, then annually).",
+    "authority": "RTO / Automated Testing Station under CMVR Rule 62 (GSR 272(E), 5 Apr 2022)",
+    "classification": "verified",
+    "sourceUrl": "https://foxmandal.in/news/rules-governing-vehicle-fitness-certification-amended/",
+    "notes": "Official notification URL seen at morth.gov.in but not text-extracted; validity periods taken from law-firm summary. In Karnataka AIS-140 fitment is now a precondition for fitness renewal.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-puc-certificate",
+    "category": "vehicle",
+    "requirement": "Verify a valid Pollution Under Control certificate for each vehicle at onboarding and on every expiry.",
+    "authority": "Authorised PUC centre / RTO (CMVR Rule 115)",
+    "classification": "assumption",
+    "sourceUrl": null,
+    "notes": "PUC is a standard CMVR requirement and is listed as an aggregator onboarding document in MVAG 2025 summaries; rule text not independently retrieved in this research.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-third-party-insurance-passenger-liability",
+    "category": "vehicle",
+    "requirement": "Verify a current motor insurance policy that covers third-party risk and passenger liability for a public service vehicle (Chapter XI, s.146-147).",
+    "authority": "IRDAI-registered insurer; enforced by police/RTO",
+    "classification": "verified",
+    "sourceUrl": "https://www.caseon.in/section/section-146-the-motor-vehicles-act-1988",
+    "notes": "s.147 requires passenger cover for public service vehicles. Insurers may repudiate passenger claims if the vehicle is used outside its permit category, so this item depends on the permit-category question.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-ais140-vlt-panic-button",
+    "category": "safety",
+    "requirement": "Verify an AIS-140 certified vehicle location tracking device and working emergency panic buttons, registered with the Karnataka command centre.",
+    "authority": "MoRTH (CMVR) and Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://www.thenewsminute.com/karnataka/karnataka-makes-trackers-panic-button-compulsory-transport-vehicles-169596",
+    "notes": "MoRTH mandated VLT and emergency buttons for public service vehicles from 2018/2019; Karnataka order (reported as TD 57 TDO 2019) phased fitment from March 2024 and ties it to the fitness certificate. Field reports say many buttons do not work, so test them.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-speed-governor",
+    "category": "vehicle",
+    "requirement": "Verify a functioning speed governor as required for transport vehicles and ensure school-cab 40 km/h governors are re-set lawfully before commuter use.",
+    "authority": "RTO / CMVR Rule 118",
+    "classification": "assumption",
+    "sourceUrl": null,
+    "notes": "Rule 118 text was not retrieved in this research; the 40 km/h school-cab governor requirement is reported for the Karnataka 2012 school-children rules.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-age-limit-onboarding",
+    "category": "vehicle",
+    "requirement": "Onboard only vehicles not older than 8 years and track the 15-year fitness/scrappage threshold for every vehicle.",
+    "authority": "MoRTH (Motor Vehicles Aggregator Guidelines 2025); Vehicle Scrappage Policy",
+    "classification": "verified",
+    "sourceUrl": "https://authbridge.com/blog/2025/08/08/",
+    "notes": "8-year cap reported in MVAG 2025 summaries; Karnataka's own age caps for contract carriages are under litigation (WP 108167/2025). Confirm the cap Karnataka applies in its aggregator rules.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-tax-paid-maxi-cab-class",
+    "category": "vehicle",
+    "requirement": "Verify Karnataka motor vehicle tax is paid up to date in the maxi cab / contract carriage class (not the educational institution bus class).",
+    "authority": "Karnataka Transport Department under the Karnataka Motor Vehicles Taxation Act 1957",
+    "classification": "assumption",
+    "sourceUrl": "https://prsindia.org/files/bills_acts/bills_states/karnataka/2026/Bill12of2026KA.pdf",
+    "notes": "Exact current per-seat or per-sq-metre maxi cab rate was not found in an official schedule; a 2026 amendment bill changes contract carriage bus rates. Confirm with RTO.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-no-school-livery-or-school-permit-use",
+    "category": "vehicle",
+    "requirement": "Do not dispatch any vehicle registered or permitted as an educational institution bus, or carrying school-cab yellow/green livery, for fare-paying commuters.",
+    "authority": "MV Act s.2(11); Karnataka Motor Vehicles (Conditions for Vehicles Engaged in Transport of School Children) Rules 2012",
+    "classification": "legal_interpretation",
+    "sourceUrl": "https://allaboutbelgaum.com/?p=27070",
+    "notes": "Institution-owned buses are defined as used solely for students/staff; operator-owned school cabs hold s.74 permits but carry school-specific conditions and tax treatment. Counsel/RTO must confirm what re-classification is needed.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "vehicle-permit-and-driver-details-displayed",
+    "category": "vehicle",
+    "requirement": "Display the permit, driver photo, name, licence number and control-room number inside each vehicle as required by Karnataka aggregator rules.",
+    "authority": "Karnataka Transport Department (2016 Aggregator Rules, Rule 7 as reported)",
+    "classification": "verified",
+    "sourceUrl": "https://www.livelaw.in/karnataka-hc-upholds-govt-rules-regulate-ola-uber-supports-ban-surge-pricing",
+    "notes": "Karnataka HC (Nov 2016) upheld display and illuminated-board requirements; exact rule text should be read from the gazette notification.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-transport-endorsed-licence",
+    "category": "driver",
+    "requirement": "Verify each driver holds a valid driving licence with transport-vehicle endorsement for the LMV/maxi cab class and meets the minimum age of 20.",
+    "authority": "RTO / Sarathi, Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://www.deccanherald.com/india/karnataka/rules-put-auto-drivers-fix-2522599",
+    "notes": "Age 20 and Class 8 education were the reported Karnataka requirements for public transport drivers; confirm current educational requirement with the RTO.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-karnataka-psv-badge",
+    "category": "driver",
+    "requirement": "Verify each driver holds a valid Karnataka public service vehicle driver's badge (Rule 12A, Karnataka Motor Vehicles Rules 1989).",
+    "authority": "RTO, Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://www.courtkutchehry.com/bare-acts/karnataka-motor-vehicles-rules-1989",
+    "notes": "Only the rule index and court descriptions were seen; eligibility details (experience, test, fee) must be confirmed with the RTO.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-police-verification",
+    "category": "driver",
+    "requirement": "Complete police verification of each driver's antecedents (7 years in Karnataka rules) and refresh it periodically.",
+    "authority": "Karnataka Police / Karnataka Transport Department (2016 Aggregator Rules)",
+    "classification": "verified",
+    "sourceUrl": "https://www.livelaw.in/karnataka-hc-upholds-govt-rules-regulate-ola-uber-supports-ban-surge-pricing",
+    "notes": "Upheld by Karnataka HC in 2016; MVAG 2025 summaries also require police verification before onboarding.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-medical-fitness",
+    "category": "driver",
+    "requirement": "Obtain a medical fitness certificate for each driver at onboarding and at the intervals required by the aggregator licence.",
+    "authority": "Registered medical practitioner (Form 1A) / Karnataka Transport Department",
+    "classification": "assumption",
+    "sourceUrl": null,
+    "notes": "Medical examination is reported as an onboarding requirement under aggregator rules; the Karnataka-specific interval was not verified.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-experience-residency-language",
+    "category": "driver",
+    "requirement": "Onboard only drivers with at least 2 years' driving experience, 2 years' Karnataka residency and working knowledge of Kannada, as the Karnataka aggregator rules require.",
+    "authority": "Karnataka Transport Department (2016 Aggregator Rules)",
+    "classification": "verified",
+    "sourceUrl": "https://www.livelaw.in/karnataka-hc-upholds-govt-rules-regulate-ola-uber-supports-ban-surge-pricing",
+    "notes": "Residency and Kannada conditions were upheld by the Karnataka HC; experience requirement reported from the draft rules. Confirm against the notified text.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-induction-and-refresher-training",
+    "category": "driver",
+    "requirement": "Deliver documented induction training before first trip and annual refresher training covering safety, women's safety and grievance handling.",
+    "authority": "MoRTH (Motor Vehicles Aggregator Guidelines 2025) / Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://www.indialaw.in/blog/civil/motor-vehicles-aggregators-rules/",
+    "notes": "Induction and annual refresher training appear in MVAG-based state rules; exact hours in the central guidelines were not read from the primary PDF.",
+    "blocksDispatch": true
+  },
+  {
+    "id": "driver-insurance-health-term",
+    "category": "driver",
+    "requirement": "Provide every onboarded driver with health insurance of at least Rs 5 lakh and term insurance of at least Rs 10 lakh.",
+    "authority": "MoRTH (Motor Vehicles Aggregator Guidelines 2025)",
+    "classification": "verified",
+    "sourceUrl": "https://authbridge.com/blog/2025/08/08/",
+    "notes": "Amounts taken from secondary summaries of MVAG 2025; confirm against the official PDF and Karnataka's adopted rule.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "operator-aggregator-licence-karnataka",
+    "category": "operator",
+    "requirement": "Obtain a Karnataka aggregator licence under MV Act s.93 and the Karnataka On-demand Transportation Technology Aggregators Rules before the app dispatches any paid trip.",
+    "authority": "Karnataka State Transport Authority / Transport Commissioner",
+    "classification": "verified",
+    "sourceUrl": "https://www.livelaw.in/karnataka-hc-upholds-govt-rules-regulate-ola-uber-supports-ban-surge-pricing",
+    "notes": "Licence is mandatory; the Jan 2026 bike-taxi judgment confirms the State may attach licence conditions under these rules. Whether the licence covers 12-seat maxi cabs must be asked in writing.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "operator-fare-within-notified-limits",
+    "category": "operator",
+    "requirement": "Set per-seat fares so that total vehicle revenue stays within the state-notified fare band for the vehicle category and publish the fare structure.",
+    "authority": "Karnataka Transport Department; MoRTH MVAG 2025 fare band (50% below to 2x base fare)",
+    "classification": "legal_interpretation",
+    "sourceUrl": "https://www.business-standard.com/amp/india-news/cab-aggregators-surge-pricing-rapido-uber-ola-125070200228_1.html",
+    "notes": "Karnataka historically capped aggregator fares at government rates and banned surge; per-seat pricing has no notified base fare for maxi cabs, so counsel must advise how the cap applies.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "operator-control-room-24x7",
+    "category": "safety",
+    "requirement": "Run a 24x7 control room that monitors every live vehicle, receives panic-button alerts and can contact drivers and passengers.",
+    "authority": "Karnataka Transport Department (2016 Aggregator Rules) / MoRTH MVAG 2025",
+    "classification": "verified",
+    "sourceUrl": "https://www.medianama.com/2016/02/223-why-karnatakas-cab-aggregator-rules-are-good-bad-and-ambiguous/",
+    "notes": "Control-room requirement appears in the Karnataka rules and the 2025 central guidelines; integrate with the state's AIS-140 command centre feed.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "operator-grievance-officer-and-records",
+    "category": "operator",
+    "requirement": "Appoint a grievance officer, keep digital trip, driver and vehicle records open to inspection, and file the periodic returns required by the licence.",
+    "authority": "Karnataka Transport Department (2016 Aggregator Rules)",
+    "classification": "verified",
+    "sourceUrl": "https://www.medianama.com/2016/02/223-why-karnatakas-cab-aggregator-rules-are-good-bad-and-ambiguous/",
+    "notes": "Daily digital records and quarterly returns were in the 2016 rules as reported; the HC struck down clauses giving the State unrestricted access to passenger data, so share only what the licence requires.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "operator-bmrcl-station-access-agreement",
+    "category": "operator",
+    "requirement": "Secure a written BMRCL licence or tender award before using any metro station pick-up bay, parking or signage.",
+    "authority": "Bangalore Metro Rail Corporation Ltd (Last-Mile Cell)",
+    "classification": "assumption",
+    "sourceUrl": "https://wri-india.org/perspectives/feeding-metro-rail-new-mobility-services-last-mile-commute",
+    "notes": "BMRCL has tendered station space to last-mile operators and required a Karnataka aggregator licence from bidders; no published policy for shared-van feeders was found. GoMaxi has no BMRCL relationship today.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "platform-passenger-pooling-consent-and-trip-sharing",
+    "category": "safety",
+    "requirement": "Offer in-app trip sharing, visible driver and vehicle identity, SOS button linked to the control room, and a women-only pooling option.",
+    "authority": "MoRTH (MVAG 2025 and its amendment) / Karnataka Transport Department",
+    "classification": "verified",
+    "sourceUrl": "https://inc42.com/buzz/add-women-only-ride-option-govt-to-cab-aggregators",
+    "notes": "Women-only pooling and female-driver options were added by the MVAG 2025 amendment; Karnataka adoption status should be confirmed.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "platform-no-child-lock-and-route-adherence-monitoring",
+    "category": "safety",
+    "requirement": "Disable child locks on passenger doors and monitor route adherence with alerts for unexplained deviations or stops.",
+    "authority": "MoRTH (MVAG 2025) / Karnataka Transport Department",
+    "classification": "assumption",
+    "sourceUrl": null,
+    "notes": "Reported in summaries of the 2025 guidelines and state rules; not read from the primary text.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "data-privacy-dpdp-notice-consent",
+    "category": "data-privacy",
+    "requirement": "Serve a DPDP-compliant notice and obtain specific consent for location, contact and payment data, with purpose limitation and easy withdrawal.",
+    "authority": "MeitY / Data Protection Board of India (DPDP Act 2023; DPDP Rules 2025, G.S.R. 846(E))",
+    "classification": "verified",
+    "sourceUrl": "https://ssrana.in/articles/meity-notifies-final-digital-personal-data-protection-rules-2025/",
+    "notes": "Notice and consent rules (Rule 3 etc.) take effect 13 May 2027; until then IT Act s.43A and SPDI Rules 2011 apply. Build to DPDP now.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "data-privacy-breach-notification-workflow",
+    "category": "data-privacy",
+    "requirement": "Implement a breach response that notifies affected passengers without delay and files the 72-hour detailed report to the Data Protection Board, plus CERT-In reporting.",
+    "authority": "MeitY / Data Protection Board of India; CERT-In",
+    "classification": "verified",
+    "sourceUrl": "https://ssrana.in/articles/meity-notifies-final-digital-personal-data-protection-rules-2025/",
+    "notes": "Rule 7 of the DPDP Rules 2025 as summarised by law firms; CERT-In 2022 directions continue in parallel.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "data-privacy-retention-and-india-storage",
+    "category": "data-privacy",
+    "requirement": "Store passenger and trip data on servers in India, retain trip data and logs for at least one year as required, and erase personal data after purpose completion.",
+    "authority": "MoRTH (MVAG 2025 data localisation) / MeitY (DPDP Rules 2025, Rule 8)",
+    "classification": "verified",
+    "sourceUrl": "https://factly.in/explainer-here-is-everything-you-need-to-know-about-the-new-motor-vehicle-aggregator-guidelines",
+    "notes": "India-server storage is reported in MVAG 2025 summaries; the exact aggregator retention period (reported as 24 months in some sources) could not be verified from the primary PDF.",
+    "blocksDispatch": false
+  },
+  {
+    "id": "data-privacy-minimise-location-and-copassenger-exposure",
+    "category": "data-privacy",
+    "requirement": "Share only masked contact details between co-passengers and drivers, and limit live-location sharing to the trip duration and consented recipients.",
+    "authority": "DPDP Act 2023 principles; Karnataka HC 2016 ruling on passenger data access",
+    "classification": "legal_interpretation",
+    "sourceUrl": "https://www.livelaw.in/karnataka-hc-upholds-govt-rules-regulate-ola-uber-supports-ban-surge-pricing",
+    "notes": "The HC struck down rules giving the State unbridled access to passenger data; design pooled-ride data flows on a need-to-know basis and document the DPIA.",
+    "blocksDispatch": false
+  }
+]
